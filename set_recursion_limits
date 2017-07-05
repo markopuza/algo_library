@@ -1,0 +1,7 @@
+import sys
+import resource
+
+sys.setrecursionlimit(300000)
+resource.setrlimit(resource.RLIMIT_STACK,
+                   (resource.RLIM_INFINITY,
+                    resource.RLIM_INFINITY))
