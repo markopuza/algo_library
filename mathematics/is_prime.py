@@ -1,17 +1,14 @@
-from math import sqrt
 
-def isPrime(n):
+def is_prime_conj(n):
    """
-    http://mathworld.wolfram.com/StrongPseudoprime.html
-   Zhang (2001, 2002, 2005, 2006, 2007) conjectured that
+    Fast primality test, based o various conjectures.
+        [ http://mathworld.wolfram.com/StrongPseudoprime.html ]
    """
    firstPrime = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139]
    lpow = pow
    if n >= 10**36:
-      # w = range(2, int(2*log(n)**2)) # pour etre deterministe, ERH dependent !!!
-      # (log 2)-1 log n log log n.
       logn = log(n)
-      w = range(2, int(logn*log(logn)/log(2)) ) # meilleure borne, conjecture !!!
+      w = range(2, int(logn*log(logn)/log(2)) )
 
    elif n >= 1543267864443420616877677640751301: w = firstPrime[:20]
    #elif n >= 1543267864443420616877677640751301: w = firstPrime[:19]
@@ -83,20 +80,18 @@ def isPrime(n):
    return True
 
 def is_prime(n):
-      '''
-      Determines primality (quite) efficiently
-      '''
+      ''' Determines primality reasonably efficiently. '''
       if n <= 1:
             return False
       if n <= 3:
             return True
       if n % 2 == 0 or n % 3 == 0:
             return False
-      for i in range(6, round(sqrt(n)) + 2, 6):
+      for i in range(6, round(n ** 0.5) + 2, 6):
             if n % (i - 1) == 0 or n % (i + 1) == 0:
                   return False
       return True
 
-def test():
-      print(list(filter(is_prime,range(100))))
-# test()
+if __name__ == "__main__":
+    assert all(is_prime(i) == is_prime_conj(i) for i in range(10**5, 2*10**5))
+    print('Test passed.')
