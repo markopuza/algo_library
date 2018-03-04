@@ -3,7 +3,7 @@ import primes
 def totients(n):
     '''
     Generates the phi array of Euler's totient function
-    up to n, using sieving method
+    up to n, using sieving method.
     '''
     prime = primes.prime_list(n)
     phi = [float(i) for i in range(n+1)]
@@ -15,6 +15,8 @@ def totients(n):
                 j += 1
     return list(map(round,phi))
 
-def test():
-    print(totients(100))
-# test()
+if __name__ == "__main__":
+    N = 50
+    tots = totients(N)
+    for i in range(N):
+        print('    phi({:d}) = {:d}'.format(i, tots[i]))
