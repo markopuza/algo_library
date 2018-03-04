@@ -1,21 +1,15 @@
-from math import sqrt
-
-def prime_list(n):
-    '''
-    Generates a prime list up to n using the sieve of Eratosthenes
-    (inclusive)
-    '''
+def modified_prime_list(n):
+    ''' Modified primes list sieve. '''
     prime = [False, False] + [True for _ in range(n)]
-    for i in range(2,int(sqrt(n)) + 1):
+    for i in range(2,int(n ** 0.5) + 1):
         if prime[i] == True:
             for j in range(i, n // i + 1):
-                prime[i * j] = i
+                prime[i * j] = i # composite numbers have this entry
     return prime
 
 def sum_of_divisors(n):
-    ''' returns the sum of divisors list for numbers <= n ,uses multiplicativeness '''
-    sod = [0 for _ in range(n + 1)]
-    p = prime_list(n)
+    ''' The sum of divisors list for numbers <= n, uses multiplicativeness. '''
+    sod, p = [0 for _ in range(n + 1)], modified_prime_list(n)
 
     # resolve prime powers
     for i in range(2, n + 1):
@@ -42,10 +36,9 @@ def sum_of_divisors(n):
 
     return sod
 
-def test():
+if __name__ == "__main__":
     print(sum_of_divisors(20))
     s = sum_of_divisors(1000)
-    print('d(284)', s[284])
-    print('d(220)', s[220])
-
-test()
+    assert s[s[284]] == 284
+    assert s[s[220]] == 220
+    print('Tests passed.')
