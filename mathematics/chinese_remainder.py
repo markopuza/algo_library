@@ -1,22 +1,21 @@
 def chinese_remainder(m, a):
     ''' Solves a system of congruences using the C.R.T.
+            [ x == a_i   mod m_i ]
+
         m - modulos, a - coefficients
-        m have to be COPRIME!
+
+        *m have to be COPRIME*
     '''
-    res = 0
-    prod = 1
+    res, prod = 0, 1
     for m_i in m:
         prod *= m_i
-
     for m_i, a_i in zip(m, a):
         p = prod // m_i
         res += a_i * modinv(p, m_i) * p
     return res % prod
 
 def egcd(a, b):
-    '''
-    Extended Euclidian algorithm
-    '''
+    ''' Extended Euclidian algorithm. '''
     if a == 0:
         return (b, 0, 1)
     else:
@@ -24,9 +23,7 @@ def egcd(a, b):
         return (g, x - (b // a) * y, y)
 
 def modinv(a, m):
-    '''
-    Finds modular inverse modulo m
-    '''
+    ''' Finds modular inverse of a modulo m.  '''
     while a < 0:
         a += m
     g, x, y = egcd(a, m)
@@ -36,6 +33,13 @@ def modinv(a, m):
         return x % m
 
 if __name__ == '__main__':
-    m = [5, 7, 9, 11]
-    a = range(1, 5)
-    print(chinese_remainder(m, a))
+    m = [11, 16, 21, 25]
+    a = [6, 13, 9, 19]
+    x = chinese_remainder(m, a)
+    for mm, aa in zip(m, a):
+        assert(x%mm == aa)
+
+    print('    The solution of: ')
+    for mm, aa in zip(m, a):
+        print('         x == {:<3d}    mod {:d}'.format(aa, mm))
+    print('    is x = {:d}'.format(x))
