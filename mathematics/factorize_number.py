@@ -1,3 +1,5 @@
+from sympy.ntheory import factorint
+
 def primes(n):
     primfac, d = [], 2
     #factors repeated
