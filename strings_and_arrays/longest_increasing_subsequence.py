@@ -1,4 +1,5 @@
 def lcs(arr):
+    ''' Finds longest increasing sequence in the array arr. '''
     N = len(arr)
     p, m, l = [0] * N, [0] * (N+1), 0
     for i in range(N):
